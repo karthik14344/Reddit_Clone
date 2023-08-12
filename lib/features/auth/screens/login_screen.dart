@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/sign_in_button.dart';
+import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 
-import '../../../core/constraints/constraints.dart';
+import '../../../core/constants/constraints.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

@@ -1,16 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:reddit_tutorial/core/constraints/constraints.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_tutorial/core/constants/constraints.dart';
+import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 
-class SignInButton extends StatelessWidget {
+//used ConsumerWidget because it provides WidgetRef so that our code can
+//communicate with the other providers
+
+class SignInButton extends ConsumerWidget {
   const SignInButton({super.key});
 
+  void signInWithGoogle(WidgetRef ref) {
+    ref.read(authControllerProvider).signInWithGoogle();
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: ElevatedButton.icon(
-        onPressed: null,
+        onPressed: () {
+          signInWithGoogle(ref);
+        },
         icon: Image.asset(
           Constants.googlePath,
           width: 35,
