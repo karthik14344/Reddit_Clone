@@ -20,8 +20,12 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text("Home"),
         centerTitle: false,
-        leading: IconButton(
-            onPressed: () => displayDrawer(context), icon: Icon(MdiIcons.menu)),
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => displayDrawer(context),
+          );
+        }),
         actions: [
           IconButton(onPressed: null, icon: Icon(Icons.search)),
           IconButton(
