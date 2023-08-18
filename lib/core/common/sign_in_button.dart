@@ -10,8 +10,8 @@ import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 class SignInButton extends ConsumerWidget {
   const SignInButton({super.key});
 
-  void signInWithGoogle(WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle();
+  void signInWithGoogle(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
   @override
@@ -20,7 +20,7 @@ class SignInButton extends ConsumerWidget {
       padding: const EdgeInsets.all(18.0),
       child: ElevatedButton.icon(
         onPressed: () {
-          signInWithGoogle(ref);
+          signInWithGoogle(context, ref);
         },
         icon: Image.asset(
           Constants.googlePath,

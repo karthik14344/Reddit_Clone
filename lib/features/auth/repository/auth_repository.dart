@@ -1,15 +1,18 @@
 // Import necessary libraries
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reddit_tutorial/core/constants/firebase_constants.dart';
+import 'package:reddit_tutorial/core/failure.dart';
 import 'package:reddit_tutorial/core/providers/firebase_provider.dart';
 import 'package:reddit_tutorial/models/user_model.dart';
 
 import '../../../core/constants/constraints.dart';
+import '../../../core/type_def.dart';
 
+// Provider for AuthRepository instance
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
     firestore: ref.read(firestoreProvider),
@@ -18,16 +21,14 @@ final authRepositoryProvider = Provider(
   ),
 );
 
-// A class that handles authentication related operations
+// Class that handles authentication related operations
 class AuthRepository {
-  // Instance of Firestore for database operations
-  final FirebaseFirestore _firestore;
-
+  final FirebaseFirestore
+      _firestore; // Instance of Firestore for database operations
   final FirebaseAuth _auth; // Instance of FirebaseAuth for authentication
   final GoogleSignIn
       _googleSignIn; // Instance of GoogleSignIn for Google authentication
 
-  // Constructor to initialize the AuthRepository with required instances
   AuthRepository({
     required FirebaseFirestore firestore,
     required FirebaseAuth auth,
@@ -36,27 +37,34 @@ class AuthRepository {
         _firestore = firestore,
         _googleSignIn = googleSignIn;
 
-  CollectionReference get _user =>
+  // Reference to the "users" collection in Firestore
+  CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
+  // Stream that emits changes in the authentication state
+  Stream<User?> get authStateChange => _auth.authStateChanges();
+
   // Method to sign in using Google authentication
-  Future<UserModel> signInWithGoogle() async {
+  FutureEither<UserModel> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser =
-          await _googleSignIn.signIn(); // Start Google sign-in process
+      // Start Google sign-in process
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       // Create a GoogleAuthProvider credential using the obtained authentication data
-      //It provides our app with an Access token and an id token to allow user to access the app features and to verify the user's identity..
       final credential = GoogleAuthProvider.credential(
         accessToken: (await googleUser?.authentication)?.accessToken,
         idToken: (await googleUser?.authentication)?.idToken,
       );
-      UserCredential userCredential = await _auth.signInWithCredential(
-          credential); //This will allow us to store the credentials in the firebase
 
-      late UserModel userModel;
+      // Sign in with the created credential
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
+      UserModel userModel;
+
+      // Check if the user is new or existing
       if (userCredential.additionalUserInfo!.isNewUser) {
+        // Create a new UserModel for new users and save to Firestore
         userModel = UserModel(
           name: userCredential.user!.displayName ?? "No Name",
           profilePic: userCredential.user!.photoURL ?? Constants.avatarDefault,
@@ -66,11 +74,38 @@ class AuthRepository {
           karma: 0,
           awards: [],
         );
-        await _user.doc(userCredential.user!.uid).set(userModel.toMap());
+        await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+      } else {
+        // Retrieve existing UserModel data from Firestore
+        userModel = await getUserData(userCredential.user!.uid).first;
       }
-      return userModel;
+      return right(userModel); // Return the UserModel using the Either monad
+    } on FirebaseException catch (e) {
+      throw e.message!; // Throw FirebaseException message
     } catch (e) {
-      rethrow;
+      return Left(
+          Failure(e.toString())); // Return Failure using the Either monad
     }
   }
+
+  // Stream that provides real-time user data synchronization
+  Stream<UserModel> getUserData(String uid) {
+    return _users.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
 }
+
+
+  // TODO : !!!! Edit later : streams and dynaimic list
+  // Stream<UserModel> getUserData(String uid) {
+  //   return _users.doc(uid).snapshots().map((event) {
+  //     final data = event.data();
+  //     if (data != null) {
+  //       return UserModel.fromMap(data as Map<String, dynamic>);
+  //     } else {
+  //       throw Exception("User data not found");
+  //     }
+  //   });
+  // }
+
+//In the context of databases and data management, a snapshot is a representation of data at a specific point in time. It captures the state of the data at that moment and is often used for creating backups, restoring data to a previous state, or maintaining historical records.

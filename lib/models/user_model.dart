@@ -54,6 +54,20 @@ class UserModel {
     };
   }
 
+  // factory UserModel.fromMap(Map<String, dynamic> map) {
+  //   return UserModel(
+  //       name: map['name'] as String,
+  //       profilePic: map['profilePic'] as String,
+  //       banner: map['banner'] as String,
+  //       uid: map['uid'] as String,
+  //       isAuthenticated: map['isAuthenticated'] as bool,
+  //       karma: map['karma'] as int,
+  //       awards: List<String>.from(
+  //         (map['awards'] as List<String>),
+  //       ));
+  // }
+
+  // TODO: !!!! Edit later : fatory _ userModel
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
         name: map['name'] as String,
@@ -62,9 +76,9 @@ class UserModel {
         uid: map['uid'] as String,
         isAuthenticated: map['isAuthenticated'] as bool,
         karma: map['karma'] as int,
-        awards: List<String>.from(
-          (map['awards'] as List<String>),
-        ));
+        awards: map['awards'] != null && map['awards'] is List<String>
+            ? List<String>.from(map['awards'] as List<String>)
+            : <String>[]);
   }
 
   String toJson() => json.encode(toMap());
