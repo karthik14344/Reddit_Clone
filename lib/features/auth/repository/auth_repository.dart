@@ -88,7 +88,7 @@ class AuthRepository {
     }
   }
 
-  // Stream that provides real-time user data synchronization
+//method to get the userData when ever it is needed in the app.
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));

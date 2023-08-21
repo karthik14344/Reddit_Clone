@@ -14,6 +14,15 @@ import 'package:routemaster/routemaster.dart';
 import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
 
+final CommunityControllerProvider =
+    StateNotifierProvider<CommunityController, bool>((ref) {
+  final CommunityRepository = ref.watch(CommunityRepositoryProvider);
+  return CommunityController(
+    communityRepository: CommunityRepository,
+    ref: ref,
+  );
+});
+
 class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
   final Ref _ref;
@@ -36,11 +45,13 @@ class CommunityController extends StateNotifier<bool> {
       members: [uid],
       mods: [uid],
     );
+
+    //creating the community by calling createCommunity method from CommunityRepository class..
     final res = await _communityRepository.createCommunity(community);
     state = false;
-    res.fold(
-      (l) => showSnackBar(context, l.message),
-      (r) => Routemaster.of(context).pop(),
-    );
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, "Community Created Successfully");
+      Routemaster.of(context).pop();
+    });
   }
 }
