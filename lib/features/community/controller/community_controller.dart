@@ -14,13 +14,24 @@ import 'package:routemaster/routemaster.dart';
 import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
 
-final CommunityControllerProvider =
+final userCommunityProvider = StreamProvider((ref) {
+  final communityController = ref.watch(communityControllerProvider.notifier);
+  return communityController.getUserCommunities();
+});
+
+final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
-  final CommunityRepository = ref.watch(CommunityRepositoryProvider);
+  final CommunityRepository = ref.watch(communityRepositoryProvider);
   return CommunityController(
     communityRepository: CommunityRepository,
     ref: ref,
   );
+});
+
+final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
+  return ref
+      .watch(communityControllerProvider.notifier)
+      .getCommunityByName(name);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -53,5 +64,14 @@ class CommunityController extends StateNotifier<bool> {
       showSnackBar(context, "Community Created Successfully");
       Routemaster.of(context).pop();
     });
+  }
+
+  Stream<List<Community>> getUserCommunities() {
+    final uid = _ref.read(userProvider)!.uid;
+    return _communityRepository.getUserCommunities(uid);
+  }
+
+  Stream<Community> getCommunityByName(String name) {
+    return _communityRepository.getCommunityByName(name);
   }
 }

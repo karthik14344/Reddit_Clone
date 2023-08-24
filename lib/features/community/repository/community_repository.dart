@@ -9,7 +9,7 @@ import 'package:reddit_tutorial/models/community_model.dart';
 import '../../../core/constants/firebase_constants.dart';
 import '../../../core/type_def.dart';
 
-final CommunityRepositoryProvider = Provider((ref) {
+final communityRepositoryProvider = Provider((ref) {
   return CommunityRepository(firestore: ref.watch(firestoreProvider));
 });
 
@@ -46,6 +46,11 @@ class CommunityRepository {
       }
       return communities;
     });
+  }
+
+  Stream<Community> getCommunityByName(String name) {
+    return _communities.doc(name).snapshots().map(
+        (event) => Community.fromMap(event.data() as Map<String, dynamic>));
   }
 
 //communities collection reference
