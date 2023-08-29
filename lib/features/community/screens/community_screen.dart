@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/core/common/error_text.dart';
 import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../controller/community_controller.dart';
 
@@ -14,6 +15,10 @@ class CommunityScreen extends ConsumerWidget {
     Key? key,
     required this.name,
   }) : super(key: key);
+
+  void navigateToModTools(BuildContext context) {
+    Routemaster.of(context).push('/mod-tools/$name');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,12 +61,14 @@ class CommunityScreen extends ConsumerWidget {
                                 Text(
                                   "r/${community.name}",
                                   style: const TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 19,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 community.mods.contains(user.uid)
                                     ? OutlinedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          navigateToModTools(context);
+                                        },
                                         style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:

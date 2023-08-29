@@ -27,7 +27,8 @@ class LoginScreen extends ConsumerWidget {
               onPressed: null,
               child: Text(
                 "Skip",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ))
         ],
       ),

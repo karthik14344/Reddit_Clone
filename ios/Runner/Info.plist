@@ -62,6 +62,8 @@
 		</array>
 	</dict>
 </array>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Explain why your app uses photo library</string>
 <!-- End of the Google Sign-in Section -->
 </dict>
 </plist>
