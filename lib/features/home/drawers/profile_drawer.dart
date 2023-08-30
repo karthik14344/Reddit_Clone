@@ -7,6 +7,11 @@ import 'package:reddit_tutorial/theme/pallete.dart';
 
 class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key});
+
+  void logOut(WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).logOut();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
@@ -60,7 +65,7 @@ class ProfileDrawer extends ConsumerWidget {
                 Icons.logout,
                 color: Pallete.redColor,
               ),
-              onTap: () {},
+              onTap: () => logOut(ref),
             ),
           ],
         ),
