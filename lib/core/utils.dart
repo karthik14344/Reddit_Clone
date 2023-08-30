@@ -9,7 +9,7 @@ void showSnackBar(BuildContext context, String text) {
         content: Text(text),
       ),
     );
-}
+} //..cascade operator
 
 Future<FilePickerResult?> pickImage() async {
   final image = await FilePicker.platform.pickFiles(type: FileType.image);
