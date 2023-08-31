@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:routemaster/routemaster.dart';
 
 class ModToolsScreen extends StatelessWidget {
@@ -15,6 +14,10 @@ class ModToolsScreen extends StatelessWidget {
     Routemaster.of(context).push('/edit-community/$name');
   }
 
+  void navigateToAddMods(BuildContext context) {
+    Routemaster.of(context).push('/add-mods/$name');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +29,7 @@ class ModToolsScreen extends StatelessWidget {
           ListTile(
             title: const Text("Add Moderators"),
             leading: Icon(Icons.add_moderator),
-            onTap: () {},
+            onTap: () => navigateToAddMods(context),
           ),
           ListTile(
             title: const Text("Edit Community"),

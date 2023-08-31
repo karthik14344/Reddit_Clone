@@ -7,6 +7,7 @@ import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
+import '../../../models/community_model.dart';
 import '../controller/community_controller.dart';
 
 class CommunityScreen extends ConsumerWidget {
@@ -18,6 +19,12 @@ class CommunityScreen extends ConsumerWidget {
 
   void navigateToModTools(BuildContext context) {
     Routemaster.of(context).push('/mod-tools/$name');
+  }
+
+  void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
+    ref
+        .read(communityControllerProvider.notifier)
+        .joinCommunity(community, context);
   }
 
   @override
@@ -64,7 +71,8 @@ class CommunityScreen extends ConsumerWidget {
                                       fontSize: 19,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                community.mods.contains(user.uid)
+                                community.mods.contains(user
+                                        .uid) //Difference between community members and mods...
                                     ? OutlinedButton(
                                         onPressed: () {
                                           navigateToModTools(context);
@@ -79,7 +87,8 @@ class CommunityScreen extends ConsumerWidget {
                                         child: const Text("Mod Tools"),
                                       )
                                     : OutlinedButton(
-                                        onPressed: () {},
+                                        onPressed: () => joinCommunity(
+                                            ref, community, context),
                                         style: ElevatedButton.styleFrom(
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
