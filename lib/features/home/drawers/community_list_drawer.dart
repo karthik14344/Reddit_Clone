@@ -8,6 +8,7 @@ import 'package:reddit_tutorial/features/community/controller/community_controll
 import 'package:routemaster/routemaster.dart';
 
 import '../../../models/community_model.dart';
+import '../../auth/controller/auth_controller.dart';
 
 class CommunityListDrawer extends ConsumerWidget {
   const CommunityListDrawer({super.key});
@@ -22,6 +23,7 @@ class CommunityListDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userProvider)!;
     return Drawer(
         child: SafeArea(
             child: Column(
@@ -41,7 +43,7 @@ class CommunityListDrawer extends ConsumerWidget {
                         leading: CircleAvatar(
                           backgroundImage: NetworkImage(community.avatar),
                         ),
-                        title: Text('${community.name}'),
+                        title: Text('r/${community.name}'),
                         onTap: () {
                           navigateToCommunity(context, community);
                         },
