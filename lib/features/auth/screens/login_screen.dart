@@ -5,7 +5,7 @@ import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/core/common/sign_in_button.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 
-import '../../../core/constants/constraints.dart';
+import '../../../core/constants/constants.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});

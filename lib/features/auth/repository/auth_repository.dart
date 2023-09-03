@@ -9,7 +9,7 @@ import 'package:reddit_tutorial/core/failure.dart';
 import 'package:reddit_tutorial/core/providers/firebase_provider.dart';
 import 'package:reddit_tutorial/models/user_model.dart';
 
-import '../../../core/constants/constraints.dart';
+import '../../../core/constants/constants.dart';
 import '../../../core/type_def.dart';
 
 // Provider for AuthRepository instance

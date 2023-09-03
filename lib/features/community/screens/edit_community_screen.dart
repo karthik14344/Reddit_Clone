@@ -18,7 +18,7 @@ import 'package:reddit_tutorial/core/utils.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
 
-import '../../../core/constants/constraints.dart';
+import '../../../core/constants/constants.dart';
 import '../../../models/community_model.dart';
 
 //
