@@ -56,10 +56,14 @@ class CommunityController extends StateNotifier<bool> {
   })  : _communityRepository = communityRepository,
         _ref = ref,
         _storageRepository = storageRepository,
-        super(false);
+        super(
+            false); //which could indicate that the controller is not actively doing
+  //something or that the community creation process hasn't started.
 
   void createCommunity(String name, BuildContext context) async {
-    state = true;
+    state =
+        true; //Changing the state to true likely means that the controller is
+    //now actively working on creating a community or performing some other task.
     final uid = _ref.read(userProvider)?.uid ?? '';
 
     Community community = Community(

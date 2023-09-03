@@ -45,7 +45,7 @@ dependencies:
   routemaster: ^1.0.1
   dotted_border: ^2.0.0+3 #for dotted borders
   file_picker: ^5.3.3
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.0 #this is to store thew theme when ever we click the button..
   uuid: ^3.0.7
   flutter_material_design_icons: ^1.0.7296
   any_link_preview: ^3.0.1

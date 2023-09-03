@@ -12,6 +12,7 @@ import 'package:reddit_tutorial/router.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'models/user_model.dart';
 

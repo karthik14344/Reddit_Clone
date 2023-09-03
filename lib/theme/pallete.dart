@@ -69,7 +69,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   void getTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final theme = prefs.getString('theme');
+    final theme = prefs.getString(
+        'theme'); //this theme is cache which will stored temporaryly in the app
 
     if (theme == 'light') {
       _mode = ThemeMode.light;
