@@ -15,8 +15,6 @@ import '../../../core/common/error_text.dart';
 import '../../../core/common/loader.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/utils.dart';
-import '../../../models/community_model.dart';
-import '../../community/controller/community_controller.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   final String uid;

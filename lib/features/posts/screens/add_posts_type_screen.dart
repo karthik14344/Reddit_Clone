@@ -10,7 +10,6 @@ import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:reddit_tutorial/features/posts/controller/posts_controller.dart';
 
-import '../../../core/constants/constants.dart';
 import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
 import '../../../theme/pallete.dart';

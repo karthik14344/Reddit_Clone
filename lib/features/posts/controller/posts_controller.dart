@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 import 'package:reddit_tutorial/models/community_model.dart';
