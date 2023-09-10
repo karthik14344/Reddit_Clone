@@ -3,10 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_tutorial/core/common/error_text.dart';
+import 'package:reddit_tutorial/core/common/loader.dart';
 import 'package:reddit_tutorial/core/constants/constants.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
+import 'package:reddit_tutorial/features/community/controller/community_controller.dart';
 import 'package:reddit_tutorial/features/posts/controller/posts_controller.dart';
 import 'package:reddit_tutorial/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../../models/post_model.dart';
 
@@ -27,6 +31,15 @@ class PostCard extends ConsumerWidget {
 
   void downvotePost(WidgetRef ref) async {
     ref.read(postControllerProvider.notifier).downvote(post);
+  }
+
+  void navigateToUser(BuildContext context) {
+    Routemaster.of(context).push(
+        '/u/${post.uid}'); //post.uid => userId of person who posted the post
+  }
+
+  void navigateToCommunity(BuildContext context) {
+    Routemaster.of(context).push('/r/${post.communityName}');
   }
 
   @override
@@ -63,11 +76,14 @@ class PostCard extends ConsumerWidget {
                             children: [
                               Row(
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      post.communityProfilePic,
+                                  GestureDetector(
+                                    onTap: () => navigateToCommunity(context),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        post.communityProfilePic,
+                                      ),
+                                      radius: 16,
                                     ),
-                                    radius: 16,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8),
@@ -83,7 +99,7 @@ class PostCard extends ConsumerWidget {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {},
+                                          onTap: () => navigateToUser(context),
                                           child: Text(
                                             'u/${post.username}',
                                             style:
@@ -114,13 +130,16 @@ class PostCard extends ConsumerWidget {
                             ),
                           ),
                           if (isTypeImage)
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height *
-                                  0.35, //retrieves the height of the current device screen, and multiplying it by 0.35 gives you 35% of the screen heigh
-                              width: double.infinity,
-                              child: Image.network(
-                                post.link!,
-                                fit: BoxFit.cover,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12.5),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height *
+                                    0.35, //retrieves the height of the current device screen, and multiplying it by 0.35 gives you 35% of the screen heigh
+                                width: MediaQuery.of(context).size.height,
+                                child: Image.network(
+                                  post.link!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           if (isTypeLink)
@@ -140,11 +159,12 @@ class PostCard extends ConsumerWidget {
                                     const EdgeInsets.symmetric(horizontal: 15),
                                 child: Text(
                                   post.description!,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
                               ),
                             ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
@@ -189,6 +209,27 @@ class PostCard extends ConsumerWidget {
                                   ),
                                 ],
                               ),
+                              ref
+                                  .watch(getCommunityByNameProvider(
+                                      post.communityName))
+                                  .when(
+                                    data: (data) {
+                                      if (data.mods.contains(user.uid)) {
+                                        return IconButton(
+                                          onPressed: () =>
+                                              deletePost(ref, context),
+                                          icon: const Icon(
+                                            Icons.admin_panel_settings,
+                                            size: 23,
+                                          ),
+                                        );
+                                      }
+                                      return const SizedBox();
+                                    },
+                                    error: (error, stackTrace) =>
+                                        ErrorText(error: error.toString()),
+                                    loading: () => const Loader(),
+                                  ),
                             ],
                           )
                         ],
