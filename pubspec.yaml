@@ -48,7 +48,7 @@ dependencies:
   shared_preferences: ^2.2.0 #this is to store thew theme when ever we click the button..
   uuid: ^3.0.7 #this is to create the unique uid of a certain user
   flutter_material_design_icons: ^1.0.7296
-  any_link_preview: ^3.0.1
+  any_link_preview: ^3.0.1 #this package is used to preview the url
 
 
 
@@ -91,10 +91,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: MyFlutterApp
+      fonts:
+        - asset: lib/assets/fonts/MyFlutterApp.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

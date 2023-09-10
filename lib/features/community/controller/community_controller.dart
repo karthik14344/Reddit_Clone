@@ -19,14 +19,16 @@ import '../../../core/failure.dart';
 import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
 
-final userCommunityProvider = StreamProvider((ref) {
-  final communityController = ref.watch(communityControllerProvider.notifier);
+final userCommunityStreamProvider = StreamProvider<List<Community>>((ref) {
+  final communityController = ref
+      .read(communityControllerProvider.notifier); //Todo: changed watch=>read
   return communityController.getUserCommunities();
 });
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
-  final communityRepository = ref.watch(communityRepositoryProvider);
+  final communityRepository =
+      ref.read(communityRepositoryProvider); //Todo: changed watch=>read
   final storageRepository = ref.watch(storageRepositoryProvider);
   return CommunityController(
     communityRepository: communityRepository,
@@ -104,15 +106,6 @@ class CommunityController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<Community>> getUserCommunities() {
-    final uid = _ref.read(userProvider)!.uid;
-    return _communityRepository.getUserCommunities(uid);
-  }
-
-  Stream<Community> getCommunityByName(String name) {
-    return _communityRepository.getCommunityByName(name);
-  }
-
   void editCommunity({
     required File? profileFile,
     required File? bannerFile,
@@ -150,14 +143,23 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-  Stream<List<Community>> searchCommunity(String query) {
-    return _communityRepository.searchCommunity(query);
-  }
-
   void addMods(
       String communityName, List<String> uids, BuildContext context) async {
     final res = await _communityRepository.addMods(communityName, uids);
     res.fold((l) => showSnackBar(context, l.message),
         (r) => Routemaster.of(context).pop());
+  }
+
+  Stream<List<Community>> getUserCommunities() {
+    final uid = _ref.read(userProvider)!.uid;
+    return _communityRepository.getUserCommunities(uid);
+  }
+
+  Stream<Community> getCommunityByName(String name) {
+    return _communityRepository.getCommunityByName(name);
+  }
+
+  Stream<List<Community>> searchCommunity(String query) {
+    return _communityRepository.searchCommunity(query);
   }
 }

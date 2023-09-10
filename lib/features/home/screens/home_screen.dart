@@ -40,11 +40,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final currentTheme = ref.watch(themeNotifierProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
         centerTitle: false,
         leading: Builder(builder: (context) {
           return IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () => displayDrawer(context),
           );
         }),
@@ -54,7 +54,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               showSearch(
                   context: context, delegate: SearchCommunityDelegate(ref));
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
             ),
           ),

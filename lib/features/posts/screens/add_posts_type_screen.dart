@@ -176,7 +176,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                       alignment: Alignment.topLeft,
                       child: Text("Select Community"),
                     ),
-                    ref.watch(userCommunityProvider).when(
+                    ref.watch(userCommunityStreamProvider).when(
                           data: (data) {
                             communities = data;
 

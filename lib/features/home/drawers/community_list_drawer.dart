@@ -33,7 +33,7 @@ class CommunityListDrawer extends ConsumerWidget {
           leading: Icon(MdiIcons.plus),
           onTap: () => navigateToCreateCommunity(context),
         ),
-        ref.watch(userCommunityProvider).when(
+        ref.watch(userCommunityStreamProvider).when(
             data: (communities) => Expanded(
                   child: ListView.builder(
                     itemCount: communities.length,

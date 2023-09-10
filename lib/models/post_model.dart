@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:flutter/foundation.dart';
 
 class Post {
@@ -69,7 +67,7 @@ class Post {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'title': title,
       'link': link,
@@ -112,10 +110,11 @@ class Post {
   }
 
   @override
-  bool operator ==(covariant Post other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return other is Post &&
+        other.id == id &&
         other.title == title &&
         other.link == link &&
         other.description == description &&

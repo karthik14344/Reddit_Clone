@@ -76,15 +76,8 @@ class UserModel {
         uid: map['uid'] as String,
         isAuthenticated: map['isAuthenticated'] as bool,
         karma: map['karma'] as int,
-        awards: map['awards'] != null && map['awards'] is List<String>
-            ? List<String>.from(map['awards'] as List<String>)
-            : <String>[]);
+        awards: List<String>.from(map['awards']));
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

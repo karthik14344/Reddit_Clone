@@ -18,6 +18,9 @@ class CommunityRepository {
   CommunityRepository({
     required FirebaseFirestore firestore,
   }) : _firestore = firestore;
+  //communities collection reference
+  CollectionReference get _communities =>
+      _firestore.collection(FirebaseConstants.communitiesCollection);
 
 //createCommunity method takes a Community object as a parameter. Presumably, the Community model contains information about a community that is to be created.
   FutureVoid createCommunity(Community community) async {
@@ -121,8 +124,4 @@ class CommunityRepository {
       return left(Failure(e.toString()));
     }
   }
-
-//communities collection reference
-  CollectionReference get _communities =>
-      _firestore.collection(FirebaseConstants.communitiesCollection);
 }
