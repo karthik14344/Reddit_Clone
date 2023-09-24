@@ -12,7 +12,6 @@ import 'package:reddit_tutorial/models/user_model.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/type_def.dart';
 
-// Provider for AuthRepository instance
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
     firestore: ref.read(firestoreProvider),
@@ -21,7 +20,6 @@ final authRepositoryProvider = Provider(
   ),
 );
 
-// Class that handles authentication related operations
 class AuthRepository {
   final FirebaseFirestore
       _firestore; // Instance of Firestore for database operations
@@ -37,34 +35,32 @@ class AuthRepository {
         _firestore = firestore,
         _googleSignIn = googleSignIn;
 
-  // Reference to the "users" collection in Firestore
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  // Stream that emits changes in the authentication state
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
-  // Method to sign in using Google authentication
-  FutureEither<UserModel> signInWithGoogle() async {
+  FutureEither<UserModel> signInWithGoogle(bool isFromLogin) async {
     try {
-      // Start Google sign-in process
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      // Create a GoogleAuthProvider credential using the obtained authentication data
       final credential = GoogleAuthProvider.credential(
         accessToken: (await googleUser?.authentication)?.accessToken,
         idToken: (await googleUser?.authentication)?.idToken,
       );
 
-      // Sign in with the created credential
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
+      UserCredential userCredential;
+
+      if (isFromLogin) {
+        userCredential = await _auth.signInWithCredential(credential);
+      } else {
+        userCredential =
+            await _auth.currentUser!.linkWithCredential(credential);
+      }
 
       UserModel userModel;
 
-      // Check if the user is new or existing
       if (userCredential.additionalUserInfo!.isNewUser) {
-        // Create a new UserModel for new users and save to Firestore
         userModel = UserModel(
           name: userCredential.user!.displayName ?? "No Name",
           profilePic: userCredential.user!.photoURL ?? Constants.avatarDefault,
@@ -83,15 +79,13 @@ class AuthRepository {
         );
         await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       } else {
-        // Retrieve existing UserModel data from Firestore
         userModel = await getUserData(userCredential.user!.uid).first;
       }
-      return right(userModel); // Return the UserModel using the Either monad
+      return right(userModel);
     } on FirebaseException catch (e) {
-      throw e.message!; // Throw FirebaseException message
+      throw e.message!;
     } catch (e) {
-      return Left(
-          Failure(e.toString())); // Return Failure using the Either monad
+      return Left(Failure(e.toString()));
     }
   }
 

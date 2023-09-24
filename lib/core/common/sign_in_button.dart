@@ -8,10 +8,14 @@ import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
 //communicate with the other providers
 
 class SignInButton extends ConsumerWidget {
-  const SignInButton({super.key});
+  final bool isFromLogin;
+
+  const SignInButton({this.isFromLogin = true, Key? key}) : super(key: key);
 
   void signInWithGoogle(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
+    ref
+        .read(authControllerProvider.notifier)
+        .signInWithGoogle(context, isFromLogin);
   }
 
   @override
