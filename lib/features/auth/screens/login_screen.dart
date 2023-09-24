@@ -15,19 +15,18 @@ class LoginScreen extends ConsumerWidget {
     final isLoadig = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Image.asset(
-            Constants.logoPath,
-            height: 40,
-          ),
+        title: Image.asset(
+          Constants.logoPath,
+          height: 40,
         ),
         actions: const [
           TextButton(
               onPressed: null,
               child: Text(
                 "Skip",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(242, 107, 11, 1)),
               ))
         ],
       ),

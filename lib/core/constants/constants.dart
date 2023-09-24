@@ -21,7 +21,7 @@ class Constants {
   static const IconData down =
       IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
-  static const awardsPath = 'assets/images/awards';
+  static const awardsPath = 'lib/assets/images/awards';
 
   static const awards = {
     'awesomeAns': '${Constants.awardsPath}/awesomeanswer.png',

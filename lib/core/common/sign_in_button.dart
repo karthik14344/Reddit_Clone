@@ -34,7 +34,8 @@ class SignInButton extends ConsumerWidget {
             minimumSize: Size(double.infinity, 50),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-            )),
+            ),
+            backgroundColor: Color.fromRGBO(242, 131, 52, 1)),
       ),
     );
   }

@@ -79,6 +79,7 @@ flutter:
     - lib/assets/images/google.png
     - lib/assets/images/loginEmote.png
     - lib/assets/images/logo.png
+    - lib/assets/images/awards/
    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
