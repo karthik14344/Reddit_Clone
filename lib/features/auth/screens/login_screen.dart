@@ -34,10 +34,10 @@ class LoginScreen extends ConsumerWidget {
       body: isLoadig
           ? const Loader()
           : Column(children: [
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              Center(
+              const Center(
                 child: Text(
                   "Dive into Anything",
                   style: TextStyle(

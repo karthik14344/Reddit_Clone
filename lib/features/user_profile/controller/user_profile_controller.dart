@@ -7,8 +7,10 @@ import 'package:reddit_tutorial/features/user_profile/repository/user_profile_re
 import 'package:reddit_tutorial/models/user_model.dart';
 import 'package:routemaster/routemaster.dart';
 
+import '../../../core/enums/enums.dart';
 import '../../../core/providers/storage_repository_provider.dart';
 import '../../../core/utils.dart';
+import '../../../models/post_model.dart';
 
 final userProfileControllerProvider =
     StateNotifierProvider<UserProfileController, bool>((ref) {
@@ -19,6 +21,10 @@ final userProfileControllerProvider =
     storageRepository: storageRepository,
     ref: ref,
   );
+});
+
+final getUserPostsProvider = StreamProvider.family((ref, String uid) {
+  return ref.read(userProfileControllerProvider.notifier).getUserPosts(uid);
 });
 
 class UserProfileController extends StateNotifier<bool> {
@@ -77,5 +83,22 @@ class UserProfileController extends StateNotifier<bool> {
         Routemaster.of(context).pop()
       },
     );
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _userProfileRepository.getUserPosts(uid);
+  }
+
+  void updateUserKarma(UserKarma karma) async {
+    UserModel user = _ref.read(userProvider)!;
+    user = user.copyWith(karma: user.karma + karma.karma);
+
+    final res = await _userProfileRepository.updateUserKarma(user);
+    res.fold(
+      (l) => null,
+      (r) => _ref.read(userProvider.notifier).update(
+            (state) => user,
+          ),
+    ); //in the case of success we are updating the userProvider with with newly updated user in which karma got updated
   }
 }

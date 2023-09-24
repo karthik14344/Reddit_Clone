@@ -3,15 +3,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_tutorial/core/common/post_card.dart';
 import 'package:reddit_tutorial/features/auth/controller/auth_controller.dart';
+import 'package:reddit_tutorial/features/user_profile/controller/user_profile_controller.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../../core/common/error_text.dart';
 import '../../../core/common/loader.dart';
+import '../../community/controller/community_controller.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   final String uid;
+
   const UserProfileScreen({
+    super.key,
     required this.uid,
   });
 
@@ -21,7 +26,6 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
     return Scaffold(
       body: ref.watch(getUserDataProvider(uid)).when(
           data: (user) => NestedScrollView(
@@ -91,8 +95,24 @@ class UserProfileScreen extends ConsumerWidget {
                       ),
                     ),
                   ];
-                },
-                body: Container(),
+                }, //TODO: unable fetch posts here in user profile screen
+                body: ref.watch(getUserPostsProvider(uid)).when(
+                      data: (data) {
+                        return ListView.builder(
+                            itemCount: data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final post = data[index];
+                              return PostCard(post: post);
+                            });
+                      },
+                      error: (error, stackTrace) {
+                        print(error.toString());
+                        return ErrorText(
+                          error: error.toString(),
+                        );
+                      },
+                      loading: () => const Loader(),
+                    ),
               ),
           error: (error, stackTrace) => ErrorText(error: error.toString()),
           loading: () => const Loader()),

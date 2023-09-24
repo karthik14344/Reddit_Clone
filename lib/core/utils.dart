@@ -6,7 +6,7 @@ void showSnackBar(BuildContext context, String text) {
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        content: Text(text),
+        content: Text(text, style: const TextStyle(color: Colors.black)),
       ),
     );
 } //..cascade operator

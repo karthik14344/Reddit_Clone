@@ -26,7 +26,7 @@ class SignInButton extends ConsumerWidget {
           Constants.googlePath,
           width: 35,
         ),
-        label: Text(
+        label: const Text(
           "Open With Google",
           style: TextStyle(fontSize: 18),
         ),

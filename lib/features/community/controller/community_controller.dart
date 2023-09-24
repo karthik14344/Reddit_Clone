@@ -18,17 +18,16 @@ import 'package:routemaster/routemaster.dart';
 import '../../../core/failure.dart';
 import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
+import '../../../models/post_model.dart';
 
 final userCommunityStreamProvider = StreamProvider<List<Community>>((ref) {
-  final communityController = ref
-      .read(communityControllerProvider.notifier); //Todo: changed watch=>read
+  final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities();
 });
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
-  final communityRepository =
-      ref.read(communityRepositoryProvider); //Todo: changed watch=>read
+  final communityRepository = ref.watch(communityRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
   return CommunityController(
     communityRepository: communityRepository,
@@ -45,6 +44,10 @@ final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
 
 final searchCommunityProvider = StreamProvider.family((ref, String query) {
   return ref.watch(communityControllerProvider.notifier).searchCommunity(query);
+});
+
+final getCommunityPostsProvider = StreamProvider.family((ref, String name) {
+  return ref.read(communityControllerProvider.notifier).getCommunityPosts(name);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -161,5 +164,9 @@ class CommunityController extends StateNotifier<bool> {
 
   Stream<List<Community>> searchCommunity(String query) {
     return _communityRepository.searchCommunity(query);
+  }
+
+  Stream<List<Post>> getCommunityPosts(String name) {
+    return _communityRepository.getCommunityPosts(name);
   }
 }
