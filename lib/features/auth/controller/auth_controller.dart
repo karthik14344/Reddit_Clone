@@ -18,22 +18,19 @@ final authControllerProvider =
           ref: ref,
         ));
 
-// Define a StreamProvider to manage authentication state changes
 final authStateChangeProvider = StreamProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.authStateChange;
 });
 
-// Define a StreamProvider.family to get user data for a specific UID
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
 });
 
-// A class that manages authentication-related state
 class AuthController extends StateNotifier<bool> {
-  final AuthRepository _authRepository; // Instance of AuthRepository
-  final Ref _ref; // Reference to the userProvider
+  final AuthRepository _authRepository;
+  final Ref _ref;
 
   AuthController({
     required AuthRepository authRepository,
@@ -42,24 +39,28 @@ class AuthController extends StateNotifier<bool> {
         _ref = ref,
         super(false); // Initialize with loading state
 
-  // Stream that provides changes in authentication state
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
-  // Method to sign in with Google authentication
   void signInWithGoogle(BuildContext context) async {
-    state = false; // Set the loading state
-    final user =
-        await _authRepository.signInWithGoogle(); // Sign in with Google
-
-    // Handle the result of the sign-in attempt using the Either monad
+    state = true;
+    final user = await _authRepository.signInWithGoogle();
+    state = false;
     user.fold(
-        (l) => showSnackBar(context, l.message), // Show error message
-        (UserModel userModel) => _ref
-            .read(userProvider.notifier)
-            .update((state) => userModel)); // Update userProvider state
+        (l) => showSnackBar(context, l.message),
+        (UserModel userModel) =>
+            _ref.read(userProvider.notifier).update((state) => userModel));
   }
 
-  // Method to get user data for a specific UID
+  void signInAsGuest(BuildContext context) async {
+    state = true;
+    final user = await _authRepository.signInAsGuest();
+    state = false;
+    user.fold(
+        (l) => showSnackBar(context, l.message),
+        (UserModel userModel) =>
+            _ref.read(userProvider.notifier).update((state) => userModel));
+  }
+
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
   }
