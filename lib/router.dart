@@ -14,11 +14,11 @@ import 'features/community/screens/community_screen.dart';
 import 'features/posts/screens/add_posts_type_screen.dart';
 
 final loggedOutRoute = RouteMap(routes: {
-  "/": (route) => MaterialPage(child: LoginScreen()),
+  "/": (_) => MaterialPage(child: LoginScreen()),
 });
 
 final loggedInRoute = RouteMap(routes: {
-  "/": (route) => MaterialPage(child: HomeScreen()),
+  "/": (_) => MaterialPage(child: HomeScreen()),
   "/create-community": (_) =>
       const MaterialPage(child: CreateCommunityScreen()),
   "/r/:name": (route) => MaterialPage(

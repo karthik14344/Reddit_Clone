@@ -39,7 +39,7 @@ class UserProfileScreen extends ConsumerWidget {
                         children: [
                           Positioned.fill(
                             child: Image.network(
-                              user.banner,
+                              user!.banner,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -62,7 +62,10 @@ class UserProfileScreen extends ConsumerWidget {
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 25)),
-                              child: const Text("Edit Profile"),
+                              child: const Text(
+                                "Edit Profile",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           )
                         ],

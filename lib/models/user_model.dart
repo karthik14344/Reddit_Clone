@@ -67,17 +67,32 @@ class UserModel {
   //       ));
   // }
 
-  // TODO: !!!! Edit later : fatory _ userModel
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(Map<String, dynamic>? map) {
+    if (map == null) {
+      throw Exception("User data not found");
+    }
     return UserModel(
-        name: map['name'] as String,
-        profilePic: map['profilePic'] as String,
-        banner: map['banner'] as String,
-        uid: map['uid'] as String,
-        isAuthenticated: map['isAuthenticated'] as bool,
-        karma: map['karma'] as int,
-        awards: List<String>.from(map['awards']));
+      name: map['name'] as String,
+      profilePic: map['profilePic'] as String,
+      banner: map['banner'] as String,
+      uid: map['uid'] as String,
+      isAuthenticated: map['isAuthenticated'] as bool,
+      karma: map['karma'] as int,
+      awards: List<String>.from(map['awards']),
+    );
   }
+
+  // TODO: !!!! Edit later : fatory _ userModel
+  // factory UserModel.fromMap(Map<String, dynamic> map) {
+  //   return UserModel(
+  //       name: map['name'] as String,
+  //       profilePic: map['profilePic'] as String,
+  //       banner: map['banner'] as String,
+  //       uid: map['uid'] as String,
+  //       isAuthenticated: map['isAuthenticated'] as bool,
+  //       karma: map['karma'] as int,
+  //       awards: List<String>.from(map['awards']));
+  // }
 
   @override
   String toString() {

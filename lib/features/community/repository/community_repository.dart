@@ -30,7 +30,7 @@ class CommunityRepository {
     try {
       var communityDoc = await _communities.doc(community.name).get();
       if (communityDoc.exists) {
-        throw "Community with same name already exirts";
+        throw "Community with same name already exits";
       }
       return right(_communities.doc(community.name).set(community.toMap()));
       //If the document with the same name does not exist, it attempts to create a new document with the community.toMap() data (converted to a map) in the Firestore collection.
@@ -44,9 +44,8 @@ class CommunityRepository {
   FutureVoid joinCommunity(String communityName, String userId) async {
     try {
       return right(_communities.doc(communityName).update({
-        "members": FieldValue.arrayUnion([
-          userId
-        ]), //this an update operation that uses the FiledValue.arrayUnion method to add userId to members array
+        "members": FieldValue.arrayUnion([userId])
+        //this an update operation that uses the FiledValue.arrayUnion method to add userId to members array
       }));
     } on FirebaseException catch (e) {
       throw e.message!;

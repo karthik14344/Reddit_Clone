@@ -33,7 +33,7 @@ class CommunityListDrawer extends ConsumerWidget {
         isGuest
             ? const SignInButton()
             : ListTile(
-                title: const Text("Create a Community"),
+                title: const Text("Create a Sector"),
                 leading: const Icon(MdiIcons.plus),
                 onTap: () => navigateToCreateCommunity(context),
               ),

@@ -21,11 +21,9 @@ final authRepositoryProvider = Provider(
 );
 
 class AuthRepository {
-  final FirebaseFirestore
-      _firestore; // Instance of Firestore for database operations
-  final FirebaseAuth _auth; // Instance of FirebaseAuth for authentication
-  final GoogleSignIn
-      _googleSignIn; // Instance of GoogleSignIn for Google authentication
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
+  final GoogleSignIn _googleSignIn;
 
   AuthRepository({
     required FirebaseFirestore firestore,
@@ -113,9 +111,19 @@ class AuthRepository {
   }
 
 //method to get the userData when ever it is needed in the app.
+  // Stream<UserModel> getUserData(String uid) {
+  //   return _users.doc(uid).snapshots().map(
+  //       (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  // }
   Stream<UserModel> getUserData(String uid) {
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+    return _users.doc(uid).snapshots().map((event) {
+      final data = event.data();
+      if (data != null) {
+        return UserModel.fromMap(data as Map<String, dynamic>);
+      } else {
+        throw Exception("User data not found");
+      }
+    });
   }
 
   void logOut() async {
@@ -126,15 +134,6 @@ class AuthRepository {
 
 
   // TODO : !!!! Edit later : streams and dynaimic list
-  // Stream<UserModel> getUserData(String uid) {
-  //   return _users.doc(uid).snapshots().map((event) {
-  //     final data = event.data();
-  //     if (data != null) {
-  //       return UserModel.fromMap(data as Map<String, dynamic>);
-  //     } else {
-  //       throw Exception("User data not found");
-  //     }
-  //   });
-  // }
+  
 
 //In the context of databases and data management, a snapshot is a representation of data at a specific point in time. It captures the state of the data at that moment and is often used for creating backups, restoring data to a previous state, or maintaining historical records.

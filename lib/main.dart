@@ -4,7 +4,6 @@
 
 // final user = ref.watch(userProvider)!;
 // final isGuest = !user.isAuthenticated;
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,24 +50,25 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-        data: (data) => MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'Reddit Tutorial',
-              theme: ref.watch(themeNotifierProvider),
-              routerDelegate: RoutemasterDelegate(
-                routesBuilder: (context) {
-                  if (data != null) {
-                    getData(ref, data);
-                    if (userModel != null) {
-                      return loggedInRoute;
-                    }
+          data: (data) => MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'Reddit Tutorial',
+            theme: ref.watch(themeNotifierProvider),
+            routerDelegate: RoutemasterDelegate(
+              routesBuilder: (context) {
+                if (data != null) {
+                  getData(ref, data);
+                  if (userModel != null) {
+                    return loggedInRoute;
                   }
-                  return loggedOutRoute;
-                },
-              ),
-              routeInformationParser: const RoutemasterParser(),
+                }
+                return loggedOutRoute;
+              },
             ),
-        error: (error, stackTrace) => ErrorText(error: error.toString()),
-        loading: () => const Loader());
+            routeInformationParser: const RoutemasterParser(),
+          ),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+          loading: () => const Loader(),
+        );
   }
 }

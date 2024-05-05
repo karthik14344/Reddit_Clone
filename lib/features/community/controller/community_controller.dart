@@ -20,6 +20,8 @@ import '../../../core/utils.dart';
 import '../../../models/community_model.dart';
 import '../../../models/post_model.dart';
 
+final communityProvider = StateProvider<Community?>((ref) => null);
+
 final userCommunityStreamProvider = StreamProvider<List<Community>>((ref) {
   final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities();
@@ -66,8 +68,8 @@ class CommunityController extends StateNotifier<bool> {
   //something or that the community creation process hasn't started.
 
   void createCommunity(String name, BuildContext context) async {
-    state =
-        true; //Changing the state to true likely means that the controller is
+    state = true;
+    //Changing the state to true likely means that the controller is
     //now actively working on creating a community or performing some other task.
     final uid = _ref.read(userProvider)?.uid ?? '';
 

@@ -16,13 +16,14 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoadig = ref.watch(authControllerProvider);
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          Constants.logoPath,
-          height: 40,
-        ),
+        backgroundColor: Colors.black,
+        // title: Image.asset(
+        //   Constants.logoPath,
+        //   height: 40,
+        // ),
         actions: [
           TextButton(
               onPressed: () => signInAsGuest(ref, context),
@@ -34,25 +35,42 @@ class LoginScreen extends ConsumerWidget {
               ))
         ],
       ),
-      body: isLoadig
+      body: isLoading
           ? const Loader()
           : Column(children: [
               const SizedBox(
                 height: 35,
               ),
               const Center(
-                child: Text(
-                  "Dive into Anything",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: null),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "BMU Campus",
+                      style: TextStyle(
+                        color: Color.fromRGBO(242, 107, 11, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 45,
+                        fontFamily: 'Intel',
+                      ),
+                    ),
+                    Text(
+                      "Care",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontFamily: 'Intel',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
-                  Constants.loginEmotePath,
+                  //Constants.loginEmotePath,
+                  "lib/assets/images/welcome.png",
                   height: 400, //provided this to fix a constant value.
                 ),
               ),
