@@ -46,7 +46,7 @@ class LoginScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "BMU Campus",
+                      "ngo",
                       style: TextStyle(
                         color: Color.fromRGBO(242, 107, 11, 1),
                         fontWeight: FontWeight.bold,
