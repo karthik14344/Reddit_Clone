@@ -46,7 +46,7 @@ class LoginScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "ngo",
+                      "Ngo",
                       style: TextStyle(
                         color: Color.fromRGBO(242, 107, 11, 1),
                         fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class LoginScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      "Care",
+                      "Media",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 50,

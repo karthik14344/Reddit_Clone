@@ -80,7 +80,7 @@ flutter:
     - lib/assets/images/loginEmote.png
     - lib/assets/images/logo.png
     - lib/assets/images/welcome.png
-    - lib/assets/images/ngo.png
+    - lib/assets/images/bmu.png
     - lib/assets/images/awards/
    
   # An image asset can refer to one or more resolution-specific "variants", see
